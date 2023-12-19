@@ -11,6 +11,8 @@ typedef pair Item;
 typedef struct {
   pair coord;
 
+  bool paredes[4];  // paredes[0] - norte | paredes[1] - sul | paredes[2] -
+                    // esquerda | parede[3] - direita
   char dir;
 
   bool visitado;
@@ -22,7 +24,7 @@ typedef struct {
 #define MAX_ROW 300
 #define MAX_COL 300
 
-pair locomover(pair no_atual, int direcao) {
+pair locomover(mapa grid[][MAX_COL], pair no_atual, int direcaoRato) {
   pair directions[] = {
       (pair){-1, 0},  // pra cima
       (pair){0, 1},   // pra baixo
@@ -30,11 +32,19 @@ pair locomover(pair no_atual, int direcao) {
       (pair){0, -1},  // pra direita
   };
 
-  no_atual.p -= directions[direcao].p;
-  no_atual.s -= directions[direcao].s;
+  pair next_node;
+
+  next_node.p = no_atual.p + directions[direcaoRato].p;
+  next_node.s = no_atual.s + directions[direcaoRato].s;
+
+  grid[next_node.p][next_node.s].pai = no_atual;
+  grid[next_node.p][next_node.s].visitado = true;
 
   return no_atual;
 }
+
+//////////////////////////////////////////////////////// Queue
+////////////////////////////////////////////////////////////////////////////////////////////
 
 typedef struct registro node;
 
@@ -64,7 +74,7 @@ node *queueUltimo(head *);
 void enfileira(head *, pair);  // insere_fim
 pair desenfileira(head *);     // remove_inicio .. busca_inicio .. remove_no
 
-head *criar_lista() {
+head *criar_queue() {
   head *le = malloc(sizeof(head));
   le->num_itens = 0;
   le->prox = NULL;
@@ -115,6 +125,9 @@ pair desenfileira(head *lista) {
   free(lixo);
   return x;
 }
+
+//////////////////////////////////////////////////////// Stack
+////////////////////////////////////////////////////////////////////////////////////////////
 
 int stackVazia(head *);
 int stackTamanho(head *);
