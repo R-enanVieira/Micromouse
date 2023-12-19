@@ -24,23 +24,29 @@ typedef struct {
 #define MAX_ROW 300
 #define MAX_COL 300
 
-pair locomover(mapa grid[][MAX_COL], pair no_atual, int direcaoRato) {
-  pair directions[] = {
-      (pair){-1, 0},  // pra cima
-      (pair){0, 1},   // pra baixo
-      (pair){1, 0},   // pra esquerda
-      (pair){0, -1},  // pra direita
-  };
+pair directions[] = {
+    (pair){-1, 0},  // pra cima
+    (pair){0, 1},   // pra baixo
+    (pair){1, 0},   // pra esquerda
+    (pair){0, -1},  // pra direita
+};
 
+pair locomover(mapa grid[][MAX_COL], pair no_atual, int direcaoRato) {
+  int x = no_atual.p, y = no_atual.s;
   pair next_node;
 
-  next_node.p = no_atual.p + directions[direcaoRato].p;
-  next_node.s = no_atual.s + directions[direcaoRato].s;
+  next_node.p = x + directions[direcaoRato].p;
+  next_node.s = y + directions[direcaoRato].s;
 
   grid[next_node.p][next_node.s].pai = no_atual;
   grid[next_node.p][next_node.s].visitado = true;
 
-  return no_atual;
+  return next_node;
+}
+
+void setWall(mapa grid[][MAX_COL], pair coord, int direction) {
+  int x = coord.p, y = coord.s;
+  grid[x][y].paredes[direction] = true;
 }
 
 //////////////////////////////////////////////////////// Queue
