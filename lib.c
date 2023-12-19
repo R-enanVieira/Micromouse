@@ -220,7 +220,7 @@ pair noPath(mapa grid[][MAX_COL], pair destinCell, head *stack) {
 
     pair originCell = desempilha(stack);
     int sonDirCell = grid[originCell.p][originCell.s].dir;
-    sonDirCell = dirCell + 2 % 4;
+    sonDirCell = sonDirCell + 2 % 4;
 
 
     while(originCell.p == destinCell.p && originCell.s == destinCell.s){
@@ -229,10 +229,12 @@ pair noPath(mapa grid[][MAX_COL], pair destinCell, head *stack) {
         dirCell = dirCell + 2 % 4;
         if(sonDirCell == dirCell)
             doAction(frentinha);
-        else if(dirCell == 1)
-            doAction(esquerdinha);
-        else if(dirCell == 3)
-            doAction(direitinha)
-        else
-            doAction()
+        else if(dirCell == 1 || dirCell == 0)
+            doAction(esquerdinha), doAction(frentinha);
+        else if(dirCell == 3 || dirCell == 2)
+            doAction(direitinha),doAction(frentinha);
+        sonDirCell = dirCell;
+    }
+
+    return originCell;
 }
