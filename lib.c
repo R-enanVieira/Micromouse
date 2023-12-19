@@ -2,6 +2,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define esquerdinha \
+  'l'  // → rotacionar 90º para a esquerda (sentido anti-horário).
+#define direitinha 'r'  // r → rotacionar 90º para a direita (sentido horário).
+#define frentinha 'w'   // → caminhar para frente. (anda uma casa)
+#define corridinha 'j'  // → corridinha para frente. (anda duas casas)
+#define correr 'R'      // → correr para frente. (anda três casas)
+#define corridona 's'  // → correr ao máximo para frente. (anda quatro casas)
+#define sensor 'c'     // → ativar sensor de paredes próximas.
+#define distancia_euclides 'd'  // → ativar sensor de proximidade do objetivo.
+
+int doAction(char c) {
+  printf("%c\n", c);
+  fflush(stdin);
+
+  int ans;
+  scanf("%d", &ans);
+  fflush(stdout);
+
+  return ans;
+}
+
 typedef struct {
   int p;
   int s;
@@ -10,11 +31,10 @@ typedef struct {
 typedef pair Item;
 
 typedef struct {
-  pair coord;
 
-  bool paredes[4];  // paredes[0] - cima | paredes[1] - baixo | paredes[2] -
-                    // esquerda | parede[3] - direita
-  char dir;
+  bool paredes[4];  // paredes[0] - cima | paredes[1] - esquerda | paredes[2] -
+                    // baixo | parede[3] - direita
+  int dir;
 
   bool visitado;
 
@@ -41,6 +61,7 @@ pair locomover(mapa grid[][MAX_COL], pair originCell, int direcaoRato) {
 
   grid[destinyCell.p][destinyCell.s].pai = originCell;
   grid[destinyCell.p][destinyCell.s].visitado = true;
+  grid[destinyCell.p][destinyCell.s].dir = direcaoRato;
 
   return destinyCell;
 }
@@ -186,5 +207,32 @@ pair desempilha(head *lista) {
 
   pair x = topo->info;
   free(topo);
-  return x;
+return x;
+}
+
+#define igualPair(A,B) {A.p == B.p && A.s == B.s}
+
+pair noPath(mapa grid[][MAX_COL], pair destinCell, head *stack) {
+
+    doAction(esquerdinha);
+    doAction(esquerdinha);
+    doAction(frentinha);
+
+    pair originCell = desempilha(stack);
+    int sonDirCell = grid[originCell.p][originCell.s].dir;
+    sonDirCell = dirCell + 2 % 4;
+
+
+    while(originCell.p == destinCell.p && originCell.s == destinCell.s){
+        originCell = desempilha(stack);
+        int dirCell = grid[originCell.p][originCell.s].dir;
+        dirCell = dirCell + 2 % 4;
+        if(sonDirCell == dirCell)
+            doAction(frentinha);
+        else if(dirCell == 1)
+            doAction(esquerdinha);
+        else if(dirCell == 3)
+            doAction(direitinha)
+        else
+            doAction()
 }
