@@ -23,7 +23,7 @@ typedef struct {
 #define MAX_ROW 300
 #define MAX_COL 300
 
-pair locomover(pair no_atual, int direcao) {
+pair locomover(pair no_atual, char direcao) {
   pair directions[] = {
       (pair){-1, 0},  // pra cima
       (pair){0, 1},   // pra baixo
@@ -117,8 +117,6 @@ pair desenfileira(head *lista) {
   return x;
 }
 
-//////////////////////////////////////////////////////////Stack
-/// Implementation/////////////////////////////////////////////////////////////
 int stackVazia(head *);
 int stackTamanho(head *);
 

@@ -31,7 +31,7 @@ void dfs2D(int x, int y, mapa grid[][COL]) {
 
     grid[x][y].visitado = true;
 
-    for (int i = 0; i < COL; i++) {
+    for (int i = 0; i < 4; i++) {
       int adjx = x + dLinha[i];
       int adjy = y + dColuna[i];
       empilha(s, (pair){adjx, adjy});
