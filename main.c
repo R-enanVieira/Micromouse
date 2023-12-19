@@ -14,7 +14,7 @@
 mapa grid[MAX_ROW][MAX_COL];
 
 // variavel que diz a direção que o rato está olhando
-int lookAt = 2;  // fala que ele nasce olhando pra esquerda
+int lookAt = 1;  // fala que ele nasce olhando pra esquerda
 
 // inicaliza nossa fila e stack
 head *queue;
@@ -56,7 +56,7 @@ bool explore(pair coord, char rDir) {
     if (esquerda)
       doAction(esquerdinha), lookAt = 0, explore(coord, frente);
     else if (direita)
-      doAction(direitinha), lookAt = 1, explore(coord, frente);
+      doAction(direitinha), lookAt = 2, explore(coord, frente);
     else {
       // beco sem saída
       // desenfileirar a ultima intersecção e desempilhar até chegar nela(usar o
@@ -67,8 +67,8 @@ bool explore(pair coord, char rDir) {
     // usar o sensor de paredes
     // rotacionar e chama a funcao explore
   } else if (judgeAns == 1) {
-    pair reloaded_coord = locomover(grid, coord, lookAt);
-    empilha(stack, reloaded_coord);
+    pair reloadedCoord = locomover(grid, coord, lookAt);
+    empilha(stack, reloadedCoord);
 
     judgeAns = doAction(sensor);  // usa o sensor
 
@@ -78,9 +78,9 @@ bool explore(pair coord, char rDir) {
     int tras = (judgeAns >> 2) & 1;
     int esquerda = (judgeAns >> 3) & 1;
 
-    if ((frente + direita + esquerda) > 1) enfileira(queue, reloaded_coord);
+    if ((frente + direita + esquerda) > 1) enfileira(queue, reloadedCoord);
 
-    explore(reloaded_coord, frente);
+    explore(reloadedCoord, frente);
     // esta livre
     // anda pra frente ate bater numa parede
     // enquanto anda, empilha os nos

@@ -8,10 +8,11 @@ typedef struct {
 } pair;
 
 typedef pair Item;
+
 typedef struct {
   pair coord;
 
-  bool paredes[4];  // paredes[0] - norte | paredes[1] - sul | paredes[2] -
+  bool paredes[4];  // paredes[0] - cima | paredes[1] - baixo | paredes[2] -
                     // esquerda | parede[3] - direita
   char dir;
 
@@ -26,22 +27,22 @@ typedef struct {
 
 pair directions[] = {
     (pair){-1, 0},  // pra cima
-    (pair){0, 1},   // pra baixo
-    (pair){1, 0},   // pra esquerda
+    (pair){0, 1},   // pra esquerda
+    (pair){1, 0},   // pra baixo
     (pair){0, -1},  // pra direita
 };
 
-pair locomover(mapa grid[][MAX_COL], pair no_atual, int direcaoRato) {
-  int x = no_atual.p, y = no_atual.s;
-  pair next_node;
+pair locomover(mapa grid[][MAX_COL], pair originCell, int direcaoRato) {
+  int x = originCell.p, y = originCell.s;
+  pair destinyCell;
 
-  next_node.p = x + directions[direcaoRato].p;
-  next_node.s = y + directions[direcaoRato].s;
+  destinyCell.p = x + directions[direcaoRato].p;
+  destinyCell.s = y + directions[direcaoRato].s;
 
-  grid[next_node.p][next_node.s].pai = no_atual;
-  grid[next_node.p][next_node.s].visitado = true;
+  grid[destinyCell.p][destinyCell.s].pai = originCell;
+  grid[destinyCell.p][destinyCell.s].visitado = true;
 
-  return next_node;
+  return destinyCell;
 }
 
 void setWall(mapa grid[][MAX_COL], pair coord, int direction) {
