@@ -29,7 +29,34 @@ bool explore(pair coord, char dir) {
   if(!grid[coord.p][coord.s].visitado)
       return false;
 
-  //callBack //desempilha ate o topo da pilha = topo da lista
+  locomover({coord.p + 1, coord.s +1}, dir);
+
+   //desempilha ate o topo da pilha = topo da lista
+   //andar pra tras
+   //mudar a direcao pra andar pra tras
+   //andar pra tras ate encontrar o inicio da fila
+
+
+  if(judeAns == 0)
+    //bateu na parede
+    //marcar na matrix que encontrou uma parede
+    //lembrar que a matrix anda antes de perguntar
+    //matrix do rato e o grid sao difetrntes
+    //usar o sensor de paredes
+    //rotacionar e chama a funcao explore
+
+  if(judeAns == 1)
+    //esta livre
+    //anda pra frente ate bater numa parede
+    //enquanto anda, empilha os nos
+    //a cada passo, usa sensor
+    //se achar no com intersecaao, emfileira
+
+  if(judeAns == 2)
+    //achou a saida
+    //desempilha ate chegar no primeiro no
+
+
 
   int frente = (judgeAns >> 0) & 1;    // 1 (livre)
   int direita = (judgeAns >> 1) & 1;   // 0 (parede)

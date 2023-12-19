@@ -17,6 +17,8 @@ typedef struct {
 
   bool visitado;
 
+  bool isWall;
+
   pair pai;
 
 } mapa;
