@@ -1,12 +1,11 @@
 #include <stdbool.h>
-
 #include "stack.c"
 
 #define COL 350
 #define LIN 350
 
-int dLinha[] = {0, 1, 0, -1};
-int dColuna[] = {-1, 0, 1, 0};
+    int dLinha[] = {0, 1, 0, -1};
+    int dColuna[] = {-1, 0, 1, 0};
 
 pair directions[] = {
     (pair){-1, 0},  // pra cima
@@ -40,7 +39,7 @@ void dfs2D(int x, int y, int malha[][COL], bool vis[][COL]) {
 
     printf("%d ", malha[linha][coluna]);
 
-    for (int i = 0; i < COL; i++) {
+    for (int i = 0; i < 4; i++) {
       int adjx = linha + dLinha[i];
       int adjy = coluna + dColuna[i];
       empilha(s, (pair){adjx, adjy});

@@ -1,13 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-typedef struct {
-  int p;
-  int s;
-} pair;
-
-typedef pair Item;
+#include "mapa.c"
 
 typedef struct registro node;
 struct registro {
