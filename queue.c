@@ -5,7 +5,7 @@
 typedef struct registro node;
 
 struct registro {
-    Item info;
+    pair info;
     node *prox;
 };
 
@@ -20,7 +20,7 @@ struct cabeca {
 
 
 head *criar_lista();
-node *criar_no(Item);
+node *criar_no(pair);
 
 int vazia(head *);
 int tamanho(head *);
@@ -28,8 +28,8 @@ int tamanho(head *);
 node *primeiro(head *);
 node *ultimo(head *);
 
-void enfileira(head *, Item); //insere_fim
-Item desenfileira(head *);  //remove_inicio .. busca_inicio .. remove_no
+void enfileira(head *, pair); //insere_fim
+pair desenfileira(head *);  //remove_inicio .. busca_inicio .. remove_no
 
 head * criar_lista()
 {
@@ -40,7 +40,7 @@ head * criar_lista()
     return le;
 }
 
-node *criar_no(Item x)
+node *criar_no(pair x)
 {
     node *no = malloc(sizeof(node));
     no->prox = NULL;
@@ -68,7 +68,7 @@ node *ultimo(head *lista)
     return lista->ultimo;
 }
 
-void enfileira(head *lista, Item x)
+void enfileira(head *lista, pair x)
 {
     node *novo = criar_no(x);
     if(novo){
@@ -84,7 +84,7 @@ void enfileira(head *lista, Item x)
     }
 }
 
-Item desenfileira(head *lista)
+pair desenfileira(head *lista)
 {
     node *lixo = primeiro(lista);
     lista->prox = lista->prox->prox;
@@ -93,7 +93,7 @@ Item desenfileira(head *lista)
     if(lixo == lista->ultimo) lista->ultimo = NULL;
     lista->num_itens--;
 
-    Item x = lixo->info;
+    pair x = lixo->info;
     free(lixo);
     return x;
 }

@@ -1,6 +1,17 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "queue.c"
+//#include "stack.c"
+
+#define esquerdinha 'l' //→ rotacionar 90º para a esquerda (sentido anti-horário).
+#define direitinha 'r' //r → rotacionar 90º para a direita (sentido horário).
+#define frentinha 'w' //→ caminhar para frente. (anda uma casa)
+#define corridinha 'j' //→ corridinha para frente. (anda duas casas)
+#define correr  'R' //→ correr para frente. (anda três casas)
+#define corridona 's' //→ correr ao máximo para frente. (anda quatro casas)
+#define sensor 'c'// → ativar sensor de paredes próximas.
+#define distancia_euclides 'd' //→ ativar sensor de proximidade do objetivo.
 
 int doAction(char c) {
   printf("%c\n", c);
@@ -13,12 +24,9 @@ int doAction(char c) {
   return ans;
 }
 
-void dfs(char dir, char turn) {
+void dfs(char dir) {
   int judgeAns;
-  if (turn == 'n')
-    judgeAns = doAction(dir);
-  else
-    doAction(turn), judgeAns = doAction('w');
+     judgeAns = doAction('w');
 
   if (judgeAns == 2) return;
 

@@ -1,8 +1,10 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include "mapa.c"
 
 typedef struct registro node;
 struct registro {
-  Item info;
+  pair info;
   node *prox;
 };
 
@@ -15,7 +17,7 @@ struct cabeca {
 };
 
 head *criar_lista();
-node *criar_no(Item);
+node *criar_no(pair);
 
 int vazia(head *);
 int tamanho(head *);
@@ -23,10 +25,10 @@ int tamanho(head *);
 node *primeiro(head *);
 node *ultimo(head *);
 
-Item espia(head *);
+pair espia(head *);
 
-void empilha(head *, Item);  // insere_inicio
-Item desempilha(head *);     // remove_inicio
+void empilha(head *, pair);  // insere_inicio
+pair desempilha(head *);     // remove_inicio
 
 head *criar_stack() {
   head *le = malloc(sizeof(head));
@@ -36,7 +38,7 @@ head *criar_stack() {
   return le;
 }
 
-node *criar_no(Item x) {
+node *criar_no(pair x) {
   node *no = malloc(sizeof(node));
   no->prox = NULL;
   no->info = x;
@@ -51,9 +53,9 @@ node *topo(head *lista) { return lista->prox; }
 
 node *ultimo(head *lista) { return lista->ultimo; }
 
-Item espia(head *p) { return (p->prox->info); }
+pair espia(head *p) { return (p->prox->info); }
 
-void empilha(head *lista, Item x) {
+void empilha(head *lista, pair x) {
   node *novo = criar_no(x);
   if (novo) {
     if (vazia(lista)) lista->ultimo = novo;
@@ -65,14 +67,14 @@ void empilha(head *lista, Item x) {
   }
 }
 
-Item desempilha(head *lista) {
+pair desempilha(head *lista) {
   node *topo = lista->prox;
   lista->prox = topo->prox;
 
   if (topo == lista->ultimo) lista->ultimo = NULL;
   lista->num_itens--;
 
-  Item x = topo->info;
+  pair x = topo->info;
   free(topo);
   return x;
 }

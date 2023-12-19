@@ -7,13 +7,6 @@
     int dLinha[] = {0, 1, 0, -1};
     int dColuna[] = {-1, 0, 1, 0};
 
-pair directions[] = {
-    (pair){-1, 0},  // pra cima
-    (pair){0, 1},   // pra baixo
-    (pair){1, 0},   // pra esquerda
-    (pair){0, -1},  // pra direita
-};
-
 bool is_valid(bool vis[][COL], int x, int y) {
   if (x < 0 || y < 0 || x > LIN || y >= COL) return false;
 
