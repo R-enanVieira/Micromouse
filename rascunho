@@ -1,0 +1,26 @@
+ == 2 ? return; #Caso base
+w == 0 ? c & l & w
+w == 1 ? w && c (c == 1101 ? )
+W
+
+Coisas a se pensar:
+  Representação do mapa;
+    Usaremos uma matriz; Qual o tipo dessa matriz?
+
+  A coordenada do ratinho só atualiza quando nos locomovermos para um nó que não é parede;
+
+
+
++-----+-----+
+|           |
++     +     +
+|           |
++-----+     +-----+
+      |         X |
++-----+     +-----+
+| >   >  >  |
++-----+     +
+      | \/  |
+      +     +
+      |  \/ |
+      +-----+
