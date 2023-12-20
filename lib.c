@@ -221,17 +221,24 @@ pair desempilha(head *lista) {
 int noPath(mapa grid[][MAX_COL], pair destinCell, head *stack, int ratoDir) {
   printf("Entrou no NoPath\n");
   doAction(esquerdinha);
+  printf("\ndireção que a porra do rato ta olhando: %d\n", ratoDir);
   ratoDir = (ratoDir + 1) % 4;
+  printf("\ndireção que a porra do rato ta olhando: %d\n", ratoDir);
   doAction(esquerdinha);
+  printf("\ndireção que a porra do rato ta olhando: %d\n", ratoDir);
   ratoDir = (ratoDir + 1) % 4;
   doAction(frentinha);
 
   pair originCell = desempilha(stack);
+  printf("pair de origem [NoPath]: {%d, %d}\n", originCell.p, originCell.s);
+  printf("pair de destino [NoPath]: {%d, %d}\n", destinCell.p, destinCell.s);
   int sonDirCell = grid[originCell.p][originCell.s].dir;
   sonDirCell = sonDirCell + 2 % 4;
 
-  while (originCell.p == destinCell.p && originCell.s == destinCell.s) {
+  while (originCell.p != destinCell.p || originCell.s != destinCell.s) {
+    printf("\ndireção que a porra do rato ta olhando: %d\n", ratoDir);
     originCell = desempilha(stack);
+    printf("pair de origem [NoPath]: {%d, %d}\n", originCell.p, originCell.s);
     int dirCell = grid[originCell.p][originCell.s].dir;
     dirCell = dirCell + 2 % 4;
     if (sonDirCell == dirCell)

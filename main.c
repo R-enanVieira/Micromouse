@@ -13,6 +13,7 @@ head *stack;
 void explore(pair coord) {
   int judgeAns = doAction(frentinha);
   printf("JudgeAns Value in explorar() scope: %d\n", judgeAns);
+  printf("\ndireção que a porra do rato ta olhando: %d\n", lookAt);
 
   if (judgeAns == 0) {
     printf("Detectou uma parede\n");
@@ -65,13 +66,10 @@ void explore(pair coord) {
 
   } else if (judgeAns == 1) {
     printf("Andou pra frente!!!\n");
-    pair reloadedCoord = locomover(grid, coord, lookAt);
-    empilha(stack, reloadedCoord);
 
-    if (grid[coord.p][coord.s].visitado) {
+    if (grid[coord.p + directions[lookAt].p][coord.s + directions[lookAt].s]
+            .visitado) {
       printf("Entrou na detectção de ciclo\n");
-      int lookAt = noPath(grid, desenfileira(queue), stack, lookAt);
-
       pair desiredCell;
       node *queueElement = queuePrimeiro(queue);
       if (queueElement != NULL) desiredCell = queueElement->info;
@@ -104,6 +102,10 @@ void explore(pair coord) {
       return;
     }
 
+    pair reloadedCoord = locomover(grid, coord, lookAt);
+    empilha(stack, reloadedCoord);
+    printf("pair empilhado: {%d, %d}\n", reloadedCoord.p, reloadedCoord.s);
+
     judgeAns = doAction(sensor);  // usa o sensor
 
     // respostas do sensor (1 -> livre e 0 -> parede)
@@ -112,7 +114,10 @@ void explore(pair coord) {
     int tras = (judgeAns >> 2) & 1;
     int esquerda = (judgeAns >> 3) & 1;
 
-    if ((frente + direita + esquerda) > 1) enfileira(queue, reloadedCoord);
+    if ((frente + direita + esquerda) > 1) {
+      enfileira(queue, reloadedCoord);
+      printf("pair enfileirado: {%d, %d}\n", reloadedCoord.p, reloadedCoord.s);
+    }
 
     explore(reloadedCoord);
   } else if (judgeAns == 2) {
@@ -125,7 +130,11 @@ void explore(pair coord) {
 int main() {
   queue = criar_queue();
   stack = criar_stack();
-
+  for (int i = 0; i < MAX_ROW; i++) {
+    for (int j = 0; j < MAX_COL; j++) {
+      grid[i][j].visitado = false;
+    }
+  }
   pair coord_inicial = {MAX_ROW / 2, MAX_COL / 2};
 
   int judgeAns = doAction(sensor);
