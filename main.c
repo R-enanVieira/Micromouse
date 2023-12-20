@@ -104,7 +104,8 @@ void explore(pair coord) {
 
     pair reloadedCoord = locomover(grid, coord, lookAt);
     empilha(stack, reloadedCoord);
-    printf("pair empilhado: {%d, %d}\n", reloadedCoord.p, reloadedCoord.s);
+    printf("pair empilhado: {%d, %d}\n", reloadedCoord.p - 150,
+           reloadedCoord.s - 150);
 
     judgeAns = doAction(sensor);  // usa o sensor
 
@@ -116,7 +117,8 @@ void explore(pair coord) {
 
     if ((frente + direita + esquerda) > 1) {
       enfileira(queue, reloadedCoord);
-      printf("pair enfileirado: {%d, %d}\n", reloadedCoord.p, reloadedCoord.s);
+      printf("pair enfileirado: {%d, %d}\n", reloadedCoord.p - 150,
+             reloadedCoord.s - 150);
     }
 
     explore(reloadedCoord);

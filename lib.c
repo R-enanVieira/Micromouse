@@ -225,22 +225,28 @@ int noPath(mapa grid[][MAX_COL], pair destinCell, head *stack, int ratoDir) {
   ratoDir = (ratoDir + 1) % 4;
   printf("\ndireção que a porra do rato ta olhando: %d\n", ratoDir);
   doAction(esquerdinha);
-  printf("\ndireção que a porra do rato ta olhando: %d\n", ratoDir);
   ratoDir = (ratoDir + 1) % 4;
+  printf("\ndireção que a porra do rato ta olhando: %d\n", ratoDir);
   doAction(frentinha);
 
   pair originCell = desempilha(stack);
-  printf("pair de origem [NoPath]: {%d, %d}\n", originCell.p, originCell.s);
-  printf("pair de destino [NoPath]: {%d, %d}\n", destinCell.p, destinCell.s);
+  printf("pair de origem [NoPath]: {%d, %d}\n", originCell.p - 150,
+         originCell.s - 150);
+  printf("pair de destino [NoPath]: {%d, %d}\n", destinCell.p - 150,
+         destinCell.s - 150);
   int sonDirCell = grid[originCell.p][originCell.s].dir;
-  sonDirCell = sonDirCell + 2 % 4;
+  sonDirCell = (sonDirCell + 2) % 4;
+  printf("\ndireção que a porra do sonrato ta olhando: %d\n", sonDirCell);
 
   while (originCell.p != destinCell.p || originCell.s != destinCell.s) {
-    printf("\ndireção que a porra do rato ta olhando: %d\n", ratoDir);
+    printf("direção que a porra do rato ta olhando: %d\n", ratoDir);
     originCell = desempilha(stack);
-    printf("pair de origem [NoPath]: {%d, %d}\n", originCell.p, originCell.s);
+    printf("pair de origem [NoPath]: {%d, %d}\n", originCell.p - 150,
+           originCell.s - 150);
     int dirCell = grid[originCell.p][originCell.s].dir;
-    dirCell = dirCell + 2 % 4;
+
+    dirCell = (dirCell + 2) % 4;  // pega direção oposta
+
     if (sonDirCell == dirCell)
       doAction(frentinha);
     else if (dirCell == 1 || dirCell == 0)
