@@ -32,4 +32,36 @@ Coisas a se pensar:
       | \/  |
       +-----+
 
+---------------------------------------------------------------------
 
+      +-----+
+      |     |           caso com toda as direcoes livres:
++-----+     +-----+         judgeAns = 0
+|       >         |         0000 (respectivamente: esquerda|tras|direita|frente)
++-----+     +-----+
+      |     |
+      +-----+
+
+      +-----+
+      |     |           caso com toda as direcoes livres:
++-----+     +               judgeAns = 1
+|       >   |               0001 (respectivamente: esquerda|tras|direita|frente)
++-----+     +
+      |     |
+      +-----+
+
+
++-----+-----+
+|       >   |           caso com a direita livre:
++-----+     +               judgeAns = 9
+      |     |               1001 (respectivamente: esquerda|tras|direita|frente)
+      +-----+
+
+      +-----+
+      |     |           caso com a esquerda livre:
++-----+     +               judgeAns = 3
+|       >   |               0011 (respectivamente: esquerda|tras|direita|frente)
++-----+-----+
+
+
+---------------------------------------------------------------------
