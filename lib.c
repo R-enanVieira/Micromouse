@@ -31,7 +31,6 @@ typedef struct {
 typedef pair Item;
 
 typedef struct {
-
   bool paredes[4];  // paredes[0] - cima | paredes[1] - esquerda | paredes[2] -
                     // baixo | parede[3] - direita
   int dir;
@@ -69,6 +68,12 @@ pair locomover(mapa grid[][MAX_COL], pair originCell, int direcaoRato) {
 void setWall(mapa grid[][MAX_COL], pair coord, int direction) {
   int x = coord.p, y = coord.s;
   grid[x][y].paredes[direction] = true;
+}
+
+bool isVisited(mapa grid[][MAX_COL], pair currentCell, int ratoDir) {
+  int x = currentCell.p, y = currentCell.s;
+
+  return grid[x + directions[ratoDir].s][y + directions[ratoDir].s].visitado;
 }
 
 //////////////////////////////////////////////////////// Queue
@@ -207,34 +212,35 @@ pair desempilha(head *lista) {
 
   pair x = topo->info;
   free(topo);
-return x;
+  return x;
 }
 
-#define igualPair(A,B) {A.p == B.p && A.s == B.s}
+#define igualPair(A, B) \
+  { A.p == B.p &&A.s == B.s }
 
-pair noPath(mapa grid[][MAX_COL], pair destinCell, head *stack) {
+int noPath(mapa grid[][MAX_COL], pair destinCell, head *stack, int ratoDir) {
+  doAction(esquerdinha);
+  ratoDir = (ratoDir + 1) % 4;
+  doAction(esquerdinha);
+  ratoDir = (ratoDir + 1) % 4;
+  doAction(frentinha);
 
-    doAction(esquerdinha);
-    doAction(esquerdinha);
-    doAction(frentinha);
+  pair originCell = desempilha(stack);
+  int sonDirCell = grid[originCell.p][originCell.s].dir;
+  sonDirCell = sonDirCell + 2 % 4;
 
-    pair originCell = desempilha(stack);
-    int sonDirCell = grid[originCell.p][originCell.s].dir;
-    sonDirCell = sonDirCell + 2 % 4;
+  while (originCell.p == destinCell.p && originCell.s == destinCell.s) {
+    originCell = desempilha(stack);
+    int dirCell = grid[originCell.p][originCell.s].dir;
+    dirCell = dirCell + 2 % 4;
+    if (sonDirCell == dirCell)
+      doAction(frentinha);
+    else if (dirCell == 1 || dirCell == 0)
+      doAction(esquerdinha), ratoDir = (ratoDir + 1) % 4, doAction(frentinha);
+    else if (dirCell == 3 || dirCell == 2)
+      doAction(direitinha), ratoDir = (ratoDir + 3) % 4, doAction(frentinha);
+    sonDirCell = dirCell;
+  }
 
-
-    while(originCell.p == destinCell.p && originCell.s == destinCell.s){
-        originCell = desempilha(stack);
-        int dirCell = grid[originCell.p][originCell.s].dir;
-        dirCell = dirCell + 2 % 4;
-        if(sonDirCell == dirCell)
-            doAction(frentinha);
-        else if(dirCell == 1 || dirCell == 0)
-            doAction(esquerdinha), doAction(frentinha);
-        else if(dirCell == 3 || dirCell == 2)
-            doAction(direitinha),doAction(frentinha);
-        sonDirCell = dirCell;
-    }
-
-    return originCell;
+  return ratoDir;
 }
