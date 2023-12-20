@@ -49,6 +49,16 @@ Coisas a se pensar:
 +-----+     +
       |     |
       +-----+
+                        Caso com a frente livre:
++-----+-----+-----+         judgeAns = 1
+|       >         |             0001 (respectivamente: esquerda|tras|direita|frente)
++-----+-----+-----+
+
+
+                        caso com nenhum caminhon livre:
++-----+-----+-----+
+|               > |         judgeAns = 0
++-----+-----+-----+             0000 (respectivamente: esquerda|tras|direita|frente)
 
 
 +-----+-----+
