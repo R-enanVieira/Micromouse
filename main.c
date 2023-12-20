@@ -36,7 +36,8 @@ void explore(pair coord) {
       doAction(direitinha), lookAt = (lookAt + 3) % 4, explore(coord);
     else {
       pair desiredCell = desenfileira(queue);
-      int newlookAt = noPath(grid, desiredCell, stack, lookAt); //setei pra newLookAt
+      int lookAt =
+          noPath(grid, desiredCell, stack, lookAt);  // setei pra newLookAt
 
       judgeAns = doAction(sensor);
 
@@ -72,15 +73,9 @@ void explore(pair coord) {
     if ((frente + direita + esquerda) > 1) enfileira(queue, reloadedCoord);
 
     explore(reloadedCoord);
-  }
-  if (judgeAns == 2) {
-      pair firstCell = grid[MAX_ROW/2][MAX_COL/2];
-      dfs2D(coord, firstCell, grid[][]);
-      while(!stackVazia(stack)){
-        explore(desemplia(stack)); //volta pro inicio pela stack(menor caminho que ele fez)
-                                   //podemos implementar a df2D na matrix que criamos
-                                   //achando o caminho ideal na dfs2d, empilhamos os nos que
-                                   //do caminho e passamos pra ca
+  } else if (judgeAns == 2) {
+    empilha(stack, coord);
+    return;
   }
 }
 
@@ -89,6 +84,14 @@ int main() {
   stack = criar_stack();
 
   pair coord_inicial = {MAX_ROW / 2, MAX_COL / 2};
+
+  int judgeAns = doAction(sensor);
+  int frente = (judgeAns >> 0) & 1;
+  int direita = (judgeAns >> 1) & 1;
+  int tras = (judgeAns >> 2) & 1;
+  int esquerda = (judgeAns >> 3) & 1;
+
+  if ((frente + direita + esquerda + tras) > 1) enfileira(queue, coord_inicial);
 
   empilha(stack, coord_inicial);
 
