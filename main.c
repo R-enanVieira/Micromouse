@@ -10,17 +10,15 @@ int lookAt = 1;  // fala que ele nasce olhando pra esquerda
 head *queue;
 head *stack;
 
-bool explore(pair coord, char rDir) {
-  int judgeAns = doAction(rDir);
+void explore(pair coord) {
+  int judgeAns = doAction(frentinha);
 
-  if (!grid[coord.p][coord.s].visitado) return false;
-  // caso encontramos um nó que já foi visitado -> temo um looping
-  // desenfilelira e aplica o goBack até chegarmos na coordenada que
-  // desenfileiramos mudar a direcao pra andar pra tras
+  // if (grid[coord.p][coord.s].visitado) {
+  //   pair reloadedCoord = ciclePath(grid, coord, desenfileira(queue), stack);
+  // }
 
   if (judgeAns == 0) {
-    setWall(grid, coord, lookAt);  // se move na matriz e mapeia aquela
-                                   // celula de acordo com o judgeAns;
+    setWall(grid, coord, lookAt);
 
     judgeAns = doAction(sensor);  // usa o sensor
 
@@ -33,18 +31,32 @@ bool explore(pair coord, char rDir) {
     if (direita && esquerda) enfileira(queue, coord);
 
     if (esquerda)
-      doAction(esquerdinha), lookAt = 0, explore(coord, frente);
+      doAction(esquerdinha), lookAt = (lookAt + 1) % 4, explore(coord);
     else if (direita)
-      doAction(direitinha), lookAt = 2, explore(coord, frente);
+      doAction(direitinha), lookAt = (lookAt + 3) % 4, explore(coord);
     else {
-      // beco sem saída
-      // desenfileirar a ultima intersecção e desempilhar até chegar nela(usar o
-      // goBack)
+      pair desiredCell = desenfileira(queue);
+      int lookAt = noPath(grid, desiredCell, stack, lookAt);
+
+      judgeAns = doAction(sensor);
+
+      frente = (judgeAns >> 0) & 1;
+      direita = (judgeAns >> 1) & 1;
+      tras = (judgeAns >> 2) & 1;
+      esquerda = (judgeAns >> 3) & 1;
+
+      if (frente && !isVisited(grid, desiredCell, lookAt))
+        explore(desiredCell);
+      else if (esquerda && !isVisited(grid, desiredCell, ((lookAt + 1) % 4)))
+        doAction(esquerdinha), lookAt = (lookAt + 1) % 4, explore(desiredCell);
+      else if (direita && !isVisited(grid, desiredCell, ((lookAt + 3) % 4)))
+        doAction(direitinha), lookAt = (lookAt + 3) % 4, explore(desiredCell);
+
+      // tavez precise considerar o caso em que visitou todos os caminhos da
+      // intersecção e vai ter que voltar pro outro no enfileirado que é uma
+      // intersecção;
     }
-    // bateu na parede
-    // marcar na matrix que encontrou uma parede
-    // usar o sensor de paredes
-    // rotacionar e chama a funcao explore
+
   } else if (judgeAns == 1) {
     pair reloadedCoord = locomover(grid, coord, lookAt);
     empilha(stack, reloadedCoord);
@@ -59,20 +71,11 @@ bool explore(pair coord, char rDir) {
 
     if ((frente + direita + esquerda) > 1) enfileira(queue, reloadedCoord);
 
-    explore(reloadedCoord, frente);
-    // esta livre
-    // anda pra frente ate bater numa parede
-    // enquanto anda, empilha os nos
-    // a cada passo, usa sensor
-    // se achar no com intersecaao, emfileira
+    explore(reloadedCoord);
   }
   if (judgeAns == 2) {
-    // achou a saida
-    // desempilha ate chegar no primeiro no
-    //
   }
 }
-
 
 int main() {
   queue = criar_queue();
