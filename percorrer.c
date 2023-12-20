@@ -1,7 +1,5 @@
 #include <stdbool.h>
 
-#include "stack.c"
-
 #define COL 350
 #define LIN 350
 

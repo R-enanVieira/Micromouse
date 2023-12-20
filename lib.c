@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "percorrer.c"
 
 #define esquerdinha \
   'l'  // → rotacionar 90º para a esquerda (sentido anti-horário).
