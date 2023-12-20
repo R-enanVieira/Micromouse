@@ -12,40 +12,10 @@ head *stack;
 
 void explore(pair coord) {
   int judgeAns = doAction(frentinha);
+  printf("JudgeAns Value in explorar() scope: %d\n", judgeAns);
 
-  if (grid[coord.p][coord.s].visitado) {
-    int lookAt = noPath(grid, desenfileira(queue), stack, lookAt);
-
-    pair desiredCell;
-    node *queueElement = queuePrimeiro(queue);
-    if (queueElement != NULL) desiredCell = queueElement->info;
-
-    lookAt = noPath(grid, desiredCell, stack, lookAt);
-
-    judgeAns = doAction(sensor);
-
-    int frente = (judgeAns >> 0) & 1;
-    int direita = (judgeAns >> 1) & 1;
-    int tras = (judgeAns >> 2) & 1;
-    int esquerda = (judgeAns >> 3) & 1;
-
-    int flag = 0;
-
-    if (frente && !isVisited(grid, desiredCell, lookAt)) flag++;
-    if (esquerda && !isVisited(grid, desiredCell, ((lookAt + 1) % 4))) flag++;
-    if (direita && !isVisited(grid, desiredCell, ((lookAt + 3) % 4))) flag++;
-
-    pair discardCell;
-    if (!(flag - 1)) discardCell = desenfileira(queue);
-
-    if (frente && !isVisited(grid, desiredCell, lookAt))
-      explore(desiredCell);
-    else if (esquerda && !isVisited(grid, desiredCell, ((lookAt + 1) % 4)))
-      doAction(esquerdinha), lookAt = (lookAt + 1) % 4, explore(desiredCell);
-    else if (direita && !isVisited(grid, desiredCell, ((lookAt + 3) % 4)))
-      doAction(direitinha), lookAt = (lookAt + 3) % 4, explore(desiredCell);
-
-  } else if (judgeAns == 0) {
+  if (judgeAns == 0) {
+    printf("Detectou uma parede\n");
     setWall(grid, coord, lookAt);
 
     judgeAns = doAction(sensor);  // usa o sensor
@@ -94,8 +64,45 @@ void explore(pair coord) {
     }
 
   } else if (judgeAns == 1) {
+    printf("Andou pra frente!!!\n");
     pair reloadedCoord = locomover(grid, coord, lookAt);
     empilha(stack, reloadedCoord);
+
+    if (grid[coord.p][coord.s].visitado) {
+      printf("Entrou na detectção de ciclo\n");
+      int lookAt = noPath(grid, desenfileira(queue), stack, lookAt);
+
+      pair desiredCell;
+      node *queueElement = queuePrimeiro(queue);
+      if (queueElement != NULL) desiredCell = queueElement->info;
+
+      lookAt = noPath(grid, desiredCell, stack, lookAt);
+
+      judgeAns = doAction(sensor);
+
+      int frente = (judgeAns >> 0) & 1;
+      int direita = (judgeAns >> 1) & 1;
+      int tras = (judgeAns >> 2) & 1;
+      int esquerda = (judgeAns >> 3) & 1;
+
+      int flag = 0;
+
+      if (frente && !isVisited(grid, desiredCell, lookAt)) flag++;
+      if (esquerda && !isVisited(grid, desiredCell, ((lookAt + 1) % 4))) flag++;
+      if (direita && !isVisited(grid, desiredCell, ((lookAt + 3) % 4))) flag++;
+
+      pair discardCell;
+      if (!(flag - 1)) discardCell = desenfileira(queue);
+
+      if (frente && !isVisited(grid, desiredCell, lookAt))
+        explore(desiredCell);
+      else if (esquerda && !isVisited(grid, desiredCell, ((lookAt + 1) % 4)))
+        doAction(esquerdinha), lookAt = (lookAt + 1) % 4, explore(desiredCell);
+      else if (direita && !isVisited(grid, desiredCell, ((lookAt + 3) % 4)))
+        doAction(direitinha), lookAt = (lookAt + 3) % 4, explore(desiredCell);
+
+      return;
+    }
 
     judgeAns = doAction(sensor);  // usa o sensor
 
@@ -109,6 +116,7 @@ void explore(pair coord) {
 
     explore(reloadedCoord);
   } else if (judgeAns == 2) {
+    printf("Achou a saída!!!\n");
     empilha(stack, coord);
     return;
   }

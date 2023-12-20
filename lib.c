@@ -219,6 +219,7 @@ pair desempilha(head *lista) {
   { A.p == B.p &&A.s == B.s }
 
 int noPath(mapa grid[][MAX_COL], pair destinCell, head *stack, int ratoDir) {
+  printf("Entrou no NoPath\n");
   doAction(esquerdinha);
   ratoDir = (ratoDir + 1) % 4;
   doAction(esquerdinha);
@@ -242,6 +243,7 @@ int noPath(mapa grid[][MAX_COL], pair destinCell, head *stack, int ratoDir) {
     sonDirCell = dirCell;
   }
 
+  printf("Saiu do Nopath\n");
   return ratoDir;
 }
 
