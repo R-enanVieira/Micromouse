@@ -263,6 +263,7 @@ int noPath(mapa grid[][MAX_COL], pair destinCell, head *stack, int ratoDir) {
 //////////////////////////////////////////////////////////////////////Percorrer
 /////////////////////////////////////////////////////
 
+#include "visual3.c"
 int dLinha[] = {0, 1, 0, -1};
 int dColuna[] = {-1, 0, 1, 0};
 
