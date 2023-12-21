@@ -14,7 +14,6 @@
 
 int doAction(char c) {
   printf("%c\n", c);
-  fflush(stdin);
 
   int ans;
   scanf("%d", &ans);
