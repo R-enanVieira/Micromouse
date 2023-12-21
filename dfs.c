@@ -1,0 +1,133 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_ROW 150
+#define MAX_COL 150
+
+typedef struct {
+  int x;
+  int y;
+} pair;
+
+typedef struct {
+  bool paredes[4];  // paredes[0] - cima | paredes[1] - esquerda | paredes[2] -
+                    // baixo | parede[3] - direita
+  int dir;
+
+  bool visitado;
+
+  pair pai;
+
+} mapa;
+
+// Declaração de variáveis globais
+int mouseLookAt = 3;
+mapa grid[MAX_ROW][MAX_COL];
+pair directions[] = {
+    (pair){-1, 0},  // pra cima
+    (pair){0, -1},  // pra esquerda
+    (pair){1, 0},   // pra baixo
+    (pair){0, 1},   // pra direita
+};
+
+int doAction(char c) {
+  printf("%c\n", c);
+  fflush(stdout);
+
+  int ans;
+  scanf("%d", &ans);
+
+  return ans;
+}
+
+pair move(pair originCell, int direcaoRato) {
+  int x = originCell.x, y = originCell.y;
+  pair destinyCell;
+
+  x += directions[direcaoRato].x;
+  y += directions[direcaoRato].y;
+
+  grid[x][y].pai = originCell;
+  grid[x][y].visitado = true;
+  grid[x][y].dir = direcaoRato;
+
+  destinyCell.x = x;
+  destinyCell.y = y;
+
+  return destinyCell;
+}
+
+void setWall(pair coord, int direction) {
+  int x = coord.x, y = coord.y;
+
+  grid[x][y].paredes[direction] = true;
+}
+
+bool isVisited(pair currentCell, int ratoDir) {
+  int x = currentCell.x, y = currentCell.y;
+
+  x += directions[ratoDir].x;
+  y += directions[ratoDir].y;
+
+  return grid[x][y].visitado;
+}
+
+void rotate(int direction) {
+  if (mouseLookAt == direction) return;
+
+  int cont = 0;
+  for (int i = 0; i < 4; i++) {
+    cont++;
+    mouseLookAt = (mouseLookAt + 1) % 4;
+    if (mouseLookAt == direction) break;
+  }
+
+  if (cont == 3)
+    doAction('r');
+  else {
+    for (int i = 0; i < cont; i++) {
+      doAction('l');
+    }
+  }
+}
+
+void goBack(pair currentCell) {
+  int x = currentCell.x, y = currentCell.y;
+
+  int dirCameFrom = grid[x][y].dir;
+  dirCameFrom = (dirCameFrom + 2) % 4;
+
+  rotate(dirCameFrom);
+  doAction('w');
+}
+
+bool dfs(pair coord) {
+  for (int i = 0; i < 4; i++) {
+    if (isVisited(coord, i)) continue;
+
+    if (mouseLookAt != i) rotate(i);
+
+    int judgeAns = doAction('w');
+
+    if (judgeAns == 1) {
+      coord = move(coord, mouseLookAt);
+
+      if (dfs(coord)) return true;
+    } else if (judgeAns == 0) {
+      setWall(coord, mouseLookAt);
+    } else if (judgeAns == 2) {
+      return true;
+    }
+  }
+
+  goBack(coord);
+  return false;
+}
+
+int main() {
+  pair inital_coord = {MAX_ROW / 2, MAX_COL / 2};
+
+  dfs(inital_coord);
+  return 0;
+}

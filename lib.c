@@ -64,8 +64,14 @@ pair locomover(mapa grid[][MAX_COL], pair originCell, int direcaoRato) {
   return destinyCell;
 }
 
-void setWall(mapa grid[][MAX_COL], pair coord, int direction) {
+void setWall(mapa grid[][MAX_COL], pair coord, int direction, int sensorData) {
+  int frente = (sensorData >> 0) & 1;
+  int direita = (sensorData >> 1) & 1;
+  int tras = (sensorData >> 2) & 1;
+  int esquerda = (sensorData >> 3) & 1;
+
   int x = coord.p, y = coord.s;
+  // if(dir)
   grid[x][y].paredes[direction] = true;
 }
 

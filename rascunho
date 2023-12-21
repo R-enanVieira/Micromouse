@@ -9,7 +9,9 @@ Coisas a se pensar:
 
   A coordenada do ratinho só atualiza quando nos locomovermos para um nó que não é parede;
 
-
+Rodar a dfs pra chegar no ultimo nó enfileirado
+  usar o dir e vetor de bools da parede
+  
 
 +-----+-----+
 |           |
