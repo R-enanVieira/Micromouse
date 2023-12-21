@@ -1,4 +1,4 @@
-#include "visual3.c"
+#include "lib.c"
 
 // iniciando a matrix
 mapa grid[MAX_ROW][MAX_COL];
@@ -12,12 +12,6 @@ head *stack;
 
 void explore(pair coord) {
   int judgeAns = doAction(frentinha);
-
-
-
-  printf("\n");
-  imprimiMaze(grid);
-  printf("\n");
 
   printf("JudgeAns Value in explorar() scope: %d\n", judgeAns);
   printf("\ndireção que a porra do rato ta olhando: %d\n", lookAt);
@@ -104,8 +98,7 @@ void explore(pair coord) {
 
     pair reloadedCoord = locomover(grid, coord, lookAt);
     empilha(stack, reloadedCoord);
-    printf("pair empilhado: {%d, %d}\n", reloadedCoord.p - 150,
-           reloadedCoord.s - 150);
+    printf("pair empilhado: {%d, %d}\n", reloadedCoord.p, reloadedCoord.s);
 
     judgeAns = doAction(sensor);  // usa o sensor
 
@@ -117,8 +110,7 @@ void explore(pair coord) {
 
     if ((frente + direita + esquerda) > 1) {
       enfileira(queue, reloadedCoord);
-      printf("pair enfileirado: {%d, %d}\n", reloadedCoord.p - 150,
-             reloadedCoord.s - 150);
+      printf("pair enfileirado: {%d, %d}\n", reloadedCoord.p, reloadedCoord.s);
     }
 
     explore(reloadedCoord);
