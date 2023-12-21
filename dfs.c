@@ -22,7 +22,7 @@ typedef struct {
 } mapa;
 
 // Declaração de variáveis globais
-int mouseLookAt = 3;
+int mouseLookAt = 0;
 mapa grid[MAX_ROW][MAX_COL];
 pair directions[] = {
     (pair){-1, 0},  // pra cima
@@ -30,6 +30,7 @@ pair directions[] = {
     (pair){1, 0},   // pra baixo
     (pair){0, 1},   // pra direita
 };
+pair goal;
 
 int doAction(char c) {
   printf("%c\n", c);
@@ -103,8 +104,15 @@ void goBack(pair currentCell) {
 }
 
 bool dfs(pair coord) {
+  printf("Coordenada que estou: {%d, %d}\n", coord.x, coord.y);
   for (int i = 0; i < 4; i++) {
-    if (isVisited(coord, i)) continue;
+    printf("mouseLookAt before rotate: %d\n", mouseLookAt);
+
+    if (isVisited(coord, i)) {
+      printf("o no que eu estou olhando ofi visitado\n");
+      continue;
+    }
+    printf("mouseLookAt after rotate: %d\n", mouseLookAt);
 
     if (mouseLookAt != i) rotate(i);
 
@@ -113,10 +121,14 @@ bool dfs(pair coord) {
     if (judgeAns == 1) {
       coord = move(coord, mouseLookAt);
 
-      if (dfs(coord)) return true;
+      if (dfs(coord)) {
+        if (coord.x != MAX_ROW / 2 && coord.y != MAX_COL / 2) goBack(coord);
+        return true;
+      }
     } else if (judgeAns == 0) {
       setWall(coord, mouseLookAt);
     } else if (judgeAns == 2) {
+      goal = coord;
       return true;
     }
   }
