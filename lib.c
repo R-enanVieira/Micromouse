@@ -72,8 +72,10 @@ void setWall(mapa grid[][MAX_COL], pair coord, int direction) {
 
 bool isVisited(mapa grid[][MAX_COL], pair currentCell, int ratoDir) {
   int x = currentCell.p, y = currentCell.s;
-
-  return grid[x + directions[ratoDir].s][y + directions[ratoDir].s].visitado;
+  printf(
+      "Verificando se o caralho dessas coordenadas {%d, %d} já foi visitada\n",
+      x + directions[ratoDir].p, y + directions[ratoDir].s);
+  return grid[x + directions[ratoDir].p][y + directions[ratoDir].s].visitado;
 }
 
 //////////////////////////////////////////////////////// Queue

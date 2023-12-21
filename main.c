@@ -13,6 +13,13 @@ head *stack;
 void explore(pair coord) {
   int judgeAns = doAction(frentinha);
 
+  // esvazia a fila para debbug
+  printf("Elementos da pilha: \n");
+  node *qElemen = stack->prox;
+  while (qElemen != NULL) {
+    printf("{%d, %d}\n", qElemen->info.p, qElemen->info.s);
+    qElemen = qElemen->prox;
+  }
   printf("JudgeAns Value in explorar() scope: %d\n", judgeAns);
   printf("\ndireção que a porra do rato ta olhando: %d\n", lookAt);
 
@@ -27,8 +34,6 @@ void explore(pair coord) {
     int direita = (judgeAns >> 1) & 1;
     int tras = (judgeAns >> 2) & 1;
     int esquerda = (judgeAns >> 3) & 1;
-
-    if (direita && esquerda) enfileira(queue, coord);
 
     if (esquerda)
       doAction(esquerdinha), lookAt = (lookAt + 1) % 4, explore(coord);
@@ -69,6 +74,9 @@ void explore(pair coord) {
       if (queueElement != NULL) desiredCell = queueElement->info;
 
       lookAt = noPath(grid, desiredCell, stack, lookAt);
+      empilha(stack, desiredCell);
+
+      printf("lookAt depois de sair doPath: %d\n", lookAt);
 
       judgeAns = doAction(sensor);
 
@@ -76,15 +84,18 @@ void explore(pair coord) {
       int direita = (judgeAns >> 1) & 1;
       int tras = (judgeAns >> 2) & 1;
       int esquerda = (judgeAns >> 3) & 1;
+      printf("%d%d%d%d\n", esquerda, tras, direita, frente);
 
       int flag = 0;
 
       if (frente && !isVisited(grid, desiredCell, lookAt)) flag++;
       if (esquerda && !isVisited(grid, desiredCell, ((lookAt + 1) % 4))) flag++;
-      if (direita && !isVisited(grid, desiredCell, ((lookAt + 3) % 4))) flag++;
-
+      if (direita && !isVisited(grid, desiredCell, ((lookAt + 3) % 4)))
+        flag++, printf("computou que é a desgraça de um caminho livre.\n");
+      printf("valor da flag: %d\n", flag);
       pair discardCell;
-      if (!(flag - 1)) discardCell = desenfileira(queue);
+      if (!(flag - 1))
+        discardCell = desenfileira(queue), printf("desenfileiramos!\n");
 
       if (frente && !isVisited(grid, desiredCell, lookAt))
         explore(desiredCell);
@@ -130,6 +141,7 @@ int main() {
     }
   }
   pair coord_inicial = {MAX_ROW / 2, MAX_COL / 2};
+  grid[MAX_ROW / 2][MAX_COL / 2].visitado = true;
 
   int judgeAns = doAction(sensor);
   int frente = (judgeAns >> 0) & 1;
