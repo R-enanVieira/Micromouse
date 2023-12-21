@@ -41,14 +41,14 @@ typedef struct {
 
 } mapa;
 
-#define MAX_ROW 300
-#define MAX_COL 300
+#define MAX_ROW 15
+#define MAX_COL 15
 
 pair directions[] = {
     (pair){-1, 0},  // pra cima
-    (pair){0, 1},   // pra esquerda
+    (pair){0, -1},   // pra esquerda
     (pair){1, 0},   // pra baixo
-    (pair){0, -1},  // pra direita
+    (pair){0, 1},  // pra direita
 };
 
 pair locomover(mapa grid[][MAX_COL], pair originCell, int direcaoRato) {
@@ -239,21 +239,21 @@ int noPath(mapa grid[][MAX_COL], pair destinCell, head *stack, int ratoDir) {
   printf("\ndireção que a porra do sonrato ta olhando: %d\n", sonDirCell);
 
   while (originCell.p != destinCell.p || originCell.s != destinCell.s) {
-    printf("direção que a porra do rato ta olhando: %d\n", ratoDir);
     originCell = desempilha(stack);
     printf("pair de origem [NoPath]: {%d, %d}\n", originCell.p - 150,
            originCell.s - 150);
     int dirCell = grid[originCell.p][originCell.s].dir;
 
     dirCell = (dirCell + 2) % 4;  // pega direção oposta
-
+    printf(" tal do fi do circell %d e tal do dircel %d \n", sonDirCell, dirCell);
     if (sonDirCell == dirCell)
       doAction(frentinha);
     else if (dirCell == 1 || dirCell == 0)
       doAction(esquerdinha), ratoDir = (ratoDir + 1) % 4, doAction(frentinha);
     else if (dirCell == 3 || dirCell == 2)
       doAction(direitinha), ratoDir = (ratoDir + 3) % 4, doAction(frentinha);
-    sonDirCell = dirCell;
+    sonDirCell = ratoDir;
+    printf("direção que a porra do rato ta olhando: %d\n", ratoDir);
   }
 
   printf("Saiu do Nopath\n");
@@ -296,3 +296,4 @@ void dfs2D(int x, int y, mapa grid[][MAX_COL]) {
     }
   }
 }
+

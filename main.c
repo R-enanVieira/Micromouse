@@ -1,10 +1,10 @@
-#include "lib.c"
+#include "visual3.c"
 
 // iniciando a matrix
 mapa grid[MAX_ROW][MAX_COL];
 
 // variavel que diz a direção que o rato está olhando
-int lookAt = 1;  // fala que ele nasce olhando pra esquerda
+int lookAt = 3;  // fala que ele nasce olhando pra esquerda
 
 // inicaliza nossa fila e stack
 head *queue;
@@ -12,6 +12,13 @@ head *stack;
 
 void explore(pair coord) {
   int judgeAns = doAction(frentinha);
+
+
+
+  printf("\n");
+  imprimiMaze(grid);
+  printf("\n");
+
   printf("JudgeAns Value in explorar() scope: %d\n", judgeAns);
   printf("\ndireção que a porra do rato ta olhando: %d\n", lookAt);
 
@@ -39,13 +46,6 @@ void explore(pair coord) {
       if (queueElement != NULL) desiredCell = queueElement->info;
 
       lookAt = noPath(grid, desiredCell, stack, lookAt);
-
-      judgeAns = doAction(sensor);
-
-      frente = (judgeAns >> 0) & 1;
-      direita = (judgeAns >> 1) & 1;
-      tras = (judgeAns >> 2) & 1;
-      esquerda = (judgeAns >> 3) & 1;
 
       int flag = 0;
 

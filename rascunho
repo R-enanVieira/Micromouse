@@ -31,9 +31,9 @@ Coisas a se pensar:
       |           |
 +-----+     +-----+
 | X         |
-+-----+     +-----+     
++-----+     +-----+
       |         < |
-      +     +-----+     
+      +     +-----+
       |     |
       +     +
       |     |
@@ -71,8 +71,8 @@ Coisas a se pensar:
 
                         caso com nenhum caminhon livre:
 +-----+-----+-----+
-|               > |         judgeAns = 0
-+-----+-----+-----+             0000 (respectivamente: esquerda|tras|direita|frente)
+|               > |         judgeAns = 4
++-----+-----+-----+             0100 (respectivamente: esquerda|tras|direita|frente)
 
 
 +-----+-----+
