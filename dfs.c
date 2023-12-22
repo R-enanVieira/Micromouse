@@ -38,6 +38,7 @@ int doAction(char c) {
 
   int ans;
   scanf("%d", &ans);
+  fflush(stdin);
 
   return ans;
 }
@@ -94,19 +95,26 @@ void rotate(int direction) {
 }
 
 void goBack(pair currentCell) {
+  printf("Entrou no GObacl!!!\n");
   int x = currentCell.x, y = currentCell.y;
 
   int dirCameFrom = grid[x][y].dir;
+
   dirCameFrom = (dirCameFrom + 2) % 4;
 
+  printf("o tal do dirCameFron %d\n",dirCameFrom );
+
   rotate(dirCameFrom);
+
+  printf("o tal do dirCameFron depois do rotacoes %d\n",dirCameFrom );
+
   doAction('w');
 }
 
 bool dfs(pair coord) {
   printf("Coordenada que estou: {%d, %d}\n", coord.x, coord.y);
   for (int i = 0; i < 4; i++) {
-    printf("mouseLookAt before rotate: %d\n", mouseLookAt);
+    printf("mous  eLookAt before rotate: %d\n", mouseLookAt);
 
     if (isVisited(coord, i)) {
       printf("o no que eu estou olhando ofi visitado\n");
@@ -122,12 +130,14 @@ bool dfs(pair coord) {
       coord = move(coord, mouseLookAt);
 
       if (dfs(coord)) {
-        if (coord.x != MAX_ROW / 2 && coord.y != MAX_COL / 2) goBack(coord);
+        if (coord.x != MAX_ROW / 2 || coord.y != MAX_COL / 2) goBack(coord);
         return true;
       }
     } else if (judgeAns == 0) {
       setWall(coord, mouseLookAt);
     } else if (judgeAns == 2) {
+      goBack(move(coord,mouseLookAt));
+      goBack(coord);
       goal = coord;
       return true;
     }
@@ -139,6 +149,8 @@ bool dfs(pair coord) {
 
 int main() {
   pair inital_coord = {MAX_ROW / 2, MAX_COL / 2};
+  grid[MAX_ROW / 2][MAX_COL / 2].visitado = true;
+
 
   dfs(inital_coord);
   return 0;
