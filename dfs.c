@@ -38,7 +38,6 @@ int doAction(char c) {
 
   int ans;
   scanf("%d", &ans);
-  fflush(stdin);
 
   return ans;
 }
@@ -95,32 +94,36 @@ void rotate(int direction) {
 }
 
 void goBack(pair currentCell) {
-  printf("Entrou no GObacl!!!\n");
+  // printf("Entrou no GObacl!!!\n");
   int x = currentCell.x, y = currentCell.y;
 
   int dirCameFrom = grid[x][y].dir;
 
   dirCameFrom = (dirCameFrom + 2) % 4;
 
-  printf("o tal do dirCameFron %d\n",dirCameFrom );
+  // printf("o tal do dirCameFron %d\n",dirCameFrom );
 
   rotate(dirCameFrom);
 
-  printf("o tal do dirCameFron depois do rotacoes %d\n",dirCameFrom );
+  // printf("o tal do dirCameFron depois do rotacoes %d\n",dirCameFrom );
 
   doAction('w');
 }
 
 bool dfs(pair coord) {
-  printf("Coordenada que estou: {%d, %d}\n", coord.x, coord.y);
+  // printf("Coordenada que estou: {%d, %d}\n", coord.x, coord.y);
   for (int i = 0; i < 4; i++) {
-    printf("mous  eLookAt before rotate: %d\n", mouseLookAt);
+    // printf("mous  eLookAt before rotate: %d\n", mouseLookAt);
 
-    if (isVisited(coord, i)) {
-      printf("o no que eu estou olhando ofi visitado\n");
+    fprintf(stderr,
+            "Coordenada atual: {%d, %d}\n Direção: %d\n Foi vistado? %d\n",
+            coord.x, coord.y, mouseLookAt, isVisited(coord, i));
+
+    if (isVisited(coord, i) || grid[coord.x][coord.y].paredes[i]) {
+      fprintf(stderr, "o no que eu estou olhando foi visitado\n");
       continue;
     }
-    printf("mouseLookAt after rotate: %d\n", mouseLookAt);
+    // printf("mouseLookAt after rotate: %d\n", mouseLookAt);
 
     if (mouseLookAt != i) rotate(i);
 
@@ -136,7 +139,7 @@ bool dfs(pair coord) {
     } else if (judgeAns == 0) {
       setWall(coord, mouseLookAt);
     } else if (judgeAns == 2) {
-      goBack(move(coord,mouseLookAt));
+      goBack(move(coord, mouseLookAt));
       goBack(coord);
       goal = coord;
       return true;
@@ -150,7 +153,6 @@ bool dfs(pair coord) {
 int main() {
   pair inital_coord = {MAX_ROW / 2, MAX_COL / 2};
   grid[MAX_ROW / 2][MAX_COL / 2].visitado = true;
-
 
   dfs(inital_coord);
   return 0;
